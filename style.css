@@ -1,0 +1,349 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	position: relative;
+	height: 100vh;
+	font-family: 'Genos', sans-serif;
+	background-color: rgb(7, 1, 12);
+	color: #fff;
+	text-transform: uppercase;
+	overflow: hidden;
+}
+
+.stars {
+	position: absolute;
+	background-color: #fff;
+	border-radius: 50%;
+	opacity: 0.8;
+
+	animation: fall 5s linear infinite;
+	z-index: -1;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+
+	text-align: center;
+	height: 100vh;
+	justify-content: center;
+
+	background-position: center;
+	z-index: 1000;
+}
+
+h1 {
+	font-size: 54px;
+	padding: 20px;
+}
+.pad-container {
+	display: grid;
+	grid-template-columns: repeat(4, 80px);
+	gap: 10px;
+	justify-content: center;
+	margin: 20px auto;
+}
+
+.pad-container button {
+	width: 80px;
+	height: 80px;
+	padding: 20px;
+	border: none;
+	font-size: 1.2rem;
+	border-radius: 8px;
+	background-color: rgba(18, 18, 18);
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.pad-container button:hover {
+	background-color: rgb(26, 26, 26);
+}
+
+.dark-blue {
+	box-shadow: 0 0 5px #2b52ff;
+}
+
+.pad-container button.dark-blue:active {
+	box-shadow: 0 0 20px #2b52ff;
+	background-color: #1237db;
+}
+.normal-blue {
+	box-shadow: 0 0 5px #5070fd;
+}
+
+.pad-container button.normal-blue:active {
+	box-shadow: 0 0 20px #5070fd;
+	background-color: #2f55ff;
+}
+.light-blue {
+	box-shadow: 0 0 5px #738dff;
+}
+
+.pad-container button.light-blue:active {
+	box-shadow: 0 0 20px #8da1ff;
+	background-color: #627fff;
+}
+.super-light-blue {
+	box-shadow: 0 0 5px #bcc8ff;
+}
+
+.pad-container button.super-light-blue:active {
+	box-shadow: 0 0 20px #c5d0ff;
+	background-color: #8da2ff;
+}
+.dark-violet {
+	box-shadow: 0 0 5px #863bff;
+}
+
+.pad-container button.dark-violet:active {
+	box-shadow: 0 0 20px #904bff;
+	background-color: #6d13ff;
+}
+.normal-violet {
+	box-shadow: 0 0 5px #b07fff;
+}
+
+.pad-container button.normal-violet:active {
+	box-shadow: 0 0 20px #9f63ff;
+	background-color: #873cff;
+}
+.light-violet {
+	box-shadow: 0 0 5px #ccacff;
+}
+
+.pad-container button.light-violet:active {
+	box-shadow: 0 0 20px #ccacff;
+	background-color: #af7dff;
+}
+.super-light-violet {
+	box-shadow: 0 0 5px #decaff;
+}
+
+.pad-container button.super-light-violet:active {
+	box-shadow: 0 0 20px #c5d0ff;
+	background-color: #c5a0ff;
+}
+.dark-pink {
+	box-shadow: 0 0 5px #f70eff;
+}
+
+.pad-container button.dark-pink:active {
+	box-shadow: 0 0 20px #f70eff;
+	background-color: #f700ff;
+}
+.normal-pink {
+	box-shadow: 0 0 5px #fa61ff;
+}
+
+.pad-container button.normal-pink:active {
+	box-shadow: 0 0 20px #fa61ff;
+	background-color: #f83aff;
+}
+.light-pink {
+	box-shadow: 0 0 5px #fb92ff;
+}
+
+.pad-container button.light-pink:active {
+	box-shadow: 0 0 20px #fb92ff;
+	background-color: #fb7cff;
+}
+.super-light-pink {
+	box-shadow: 0 0 5px #fdbcff;
+}
+
+.pad-container button.super-light-pink:active {
+	box-shadow: 0 0 20px #fdbcff;
+	background-color: #fca9ff;
+}
+
+.dark-turquise {
+	box-shadow: 0 0 5px #00ffe5;
+}
+
+.pad-container button.dark-turquise:active {
+	box-shadow: 0 0 20px #00ffe5;
+	background-color: #00ffe5;
+}
+.normal-turquise {
+	box-shadow: 0 0 5px #74fff1;
+}
+
+.pad-container button.normal-turquise:active {
+	box-shadow: 0 0 20px #74fff1;
+	background-color: #75fff1;
+}
+.light-turquise {
+	box-shadow: 0 0 5px #9ffff5;
+}
+
+.pad-container button.light-turquise:active {
+	box-shadow: 0 0 20px #9ffff5;
+	background-color: #98fff5;
+}
+.super-light-turquise {
+	box-shadow: 0 0 5px #c9fffa;
+}
+
+.pad-container button.super-light-turquise:active {
+	box-shadow: 0 0 20px #c9fffa;
+	background-color: #c9fffa;
+}
+
+#pad1.playing {
+	background-color: #1237db;
+	box-shadow: 0 0 20px #2b52ff;
+}
+#pad2.playing {
+	box-shadow: 0 0 20px #5070fd;
+	background-color: #2f55ff;
+}
+#pad3.playing {
+	box-shadow: 0 0 20px #8da1ff;
+	background-color: #627fff;
+}
+#pad4.playing {
+	box-shadow: 0 0 20px #c5d0ff;
+	background-color: #8da2ff;
+}
+#pad5.playing {
+	box-shadow: 0 0 20px #904bff;
+	background-color: #6d13ff;
+}
+#pad6.playing {
+	box-shadow: 0 0 20px #9f63ff;
+	background-color: #873cff;
+}
+#pad7.playing {
+	box-shadow: 0 0 20px #ccacff;
+	background-color: #af7dff;
+}
+#pad8.playing {
+	box-shadow: 0 0 20px #c5d0ff;
+	background-color: #c5a0ff;
+}
+#pad9.playing {
+	box-shadow: 0 0 20px #f70eff;
+	background-color: #f700ff;
+}
+#pad10.playing {
+	box-shadow: 0 0 20px #fa61ff;
+	background-color: #f83aff;
+}
+#pad11.playing {
+	box-shadow: 0 0 20px #fb92ff;
+	background-color: #fb7cff;
+}
+#pad12.playing {
+	box-shadow: 0 0 20px #fdbcff;
+	background-color: #fca9ff;
+}
+#pad13.playing {
+	box-shadow: 0 0 20px #00ffe5;
+	background-color: #00ffe5;
+}
+#pad14.playing {
+	box-shadow: 0 0 20px #74fff1;
+	background-color: #75fff1;
+}
+#pad15.playing {
+	box-shadow: 0 0 20px #9ffff5;
+	background-color: #98fff5;
+}
+#pad16.playing {
+	box-shadow: 0 0 20px #c9fffa;
+	background-color: #c9fffa;
+}
+
+.controls {
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	
+}
+
+
+.controls button {
+	padding: 10px 20px;
+	font-size: 16px;
+	background-color: rgba(18, 18, 18);
+	border: none;
+	border-radius: 5px;
+	color: rgba(255, 255, 255, .5);
+	cursor: pointer;
+	scale: 1;
+	transition: background-color .3s;
+transition: scale .3s;
+}
+	
+.controls button:hover {
+background-color: rgb(62, 62, 62);
+scale: 1.1;
+}
+
+
+
+footer {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	font-size: 16px;
+	color: #8e8e8e;
+	opacity: 0.5;
+}
+
+
+/* Losowe pozycje i animacje dla różnych gwiazd */
+.star1 {
+	width: 2px;
+	height: 2px;
+	left: 10%;
+	animation-duration: 4s;
+	animation-delay: 0s;
+}
+
+.star2 {
+	width: 3px;
+	height: 3px;
+	left: 30%;
+	animation-duration: 6s;
+	animation-delay: 1s;
+}
+
+.star3 {
+	width: 1px;
+	height: 1px;
+	left: 50%;
+	animation-duration: 5s;
+	animation-delay: 2s;
+}
+
+.star4 {
+	width: 2px;
+	height: 2px;
+	left: 70%;
+	animation-duration: 7s;
+	animation-delay: 3s;
+}
+
+.star5 {
+	width: 1px;
+	height: 1px;
+	left: 90%;
+	animation-duration: 5s;
+	animation-delay: 4s;
+}
+
+
+@keyframes fall {
+	0% {
+		transform: translateX(100vw) translateY(0);
+	}
+	100% {
+		transform: translateX(-100vw) translateY(100vh);
+	}
+}

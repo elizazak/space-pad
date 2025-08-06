@@ -263,9 +263,7 @@ h1 {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	
 }
-
 
 .controls button {
 	padding: 10px 20px;
@@ -273,19 +271,126 @@ h1 {
 	background-color: rgba(18, 18, 18);
 	border: none;
 	border-radius: 5px;
-	color: rgba(255, 255, 255, .5);
+	color: rgba(255, 255, 255, 0.5);
 	cursor: pointer;
 	scale: 1;
-	transition: background-color .3s;
-transition: scale .3s;
+	transition: background-color 0.3s;
+	transition: scale 0.3s;
 }
-	
+
 .controls button:hover {
-background-color: rgb(62, 62, 62);
-scale: 1.1;
+	background-color: rgb(62, 62, 62);
+	scale: 1.1;
+}
+
+.record-btn{
+	margin-bottom: 100px;
+}
+
+.recordings-area {
+	width: 350px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 30px auto;
+	gap: 20px;
+	display: none; /* Ukryte na początku */
+
+	
+}
+
+.play-btn, .pause-btn {
+	font-size: 20px;
+	padding: 5px 10px;
+
+	border: none;
+	background: none;
+	color: #ca9ec7;
+	
+	
+	cursor: pointer;
+	transition: color .3s;
+	
+}
+
+.play-btn:hover, .pause-btn:hover {
+	color: #6b285b;
+}
+
+.pause-btn {
+	display: none;
+}
+
+.progress-bar {
+  -webkit-appearance: none;  /* Usuwa domyślny wygląd w przeglądarkach WebKit (np. Chrome, Safari) */
+  appearance: none;  /* Usuwa domyślny wygląd we wszystkich przeglądarkach */
+  width: 100%;  /* Ustawia szerokość paska na 100% */
+  max-width: 350px;
+  height: 8px;  /* Wysokość paska */
+  border-radius: 5px;  /* Zaokrąglenie rogów */
+  background: #483847;  /* Kolor tła progressbara (szary) */
+}
+
+/*Firefox */
+.progress-bar::-moz-range-thumb {
+  width: 15px;  /* Szerokość kulki */
+  height: 15px;  /* Wysokość kulki */
+  border: none;
+  background: #ca9ec7;  /* Kolor kulki */
+  border-radius: 50%;  /* Kulka o okrągłym kształcie */
+  cursor: pointer;
+}
+/* Chrome, Safari, Edge */
+.progress-bar::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  border: none;
+  background: #ca9ec7;  /* Twój kolor */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.progress-bar::-webkit-slider-runnable-track {
+  background: #6b285b;
+  box-shadow: 0 0 5px #ff33cf;
+}
+
+.progress-bar::-moz-range-progress {
+  background: #6b285b;
+  box-shadow: 0 0 5px #ff33cf;
 }
 
 
+.remove-btn {
+	font-size: 18px;
+padding: 5px 10px;
+
+
+	background: none;
+	border: none;
+	color: #ca9ec7;
+	
+	
+	cursor: pointer;
+	transition: color .3s;
+}
+
+
+.remove-btn:hover {
+	color: #6b285b;
+}
+
+.recording p {
+	font-size: 18px;
+
+	letter-spacing: 1px;
+	color: #d8d8d8;
+	
+}
+
+.buttons-container {
+	margin-bottom: 30px;
+}
 
 footer {
 	position: fixed;
@@ -295,7 +400,6 @@ footer {
 	color: #8e8e8e;
 	opacity: 0.5;
 }
-
 
 /* Losowe pozycje i animacje dla różnych gwiazd */
 .star1 {
@@ -337,7 +441,6 @@ footer {
 	animation-duration: 5s;
 	animation-delay: 4s;
 }
-
 
 @keyframes fall {
 	0% {

@@ -16,7 +16,6 @@ const pad15 = document.querySelector('#pad15');
 const pad16 = document.querySelector('#pad16');
 const recordBtn = document.getElementById('recordBtn');
 
-
 const recordingList = document.getElementById('.recording-list');
 
 const pads = [
@@ -61,11 +60,8 @@ const sounds = [
 let isRecording = false; // po to aby wiedzieć czy się nagrywa czy nie
 let recordedSequence = []; //tablica, która będzie zawierać zarejestrowae dźwięki/historię kliknięć, czyli jaki pad został kliknięty po jakim czasie od startu nagrywania, każdy element w tej tablic to obiekt
 let startTime; //czas kiedy użytkownik rozpoczął nagranie
-let isPlaying = false
+let isPlaying = false;
 let savedRecordings = []; // tablica nagrań
-
-
-
 
 const onPadClick = (index) => {
 	if (isPlaying) {
@@ -76,15 +72,10 @@ const onPadClick = (index) => {
 	handlePadClick(index);
 };
 
-
 //Funkcja włącza lub wyłącza dźwięk pada i zmienia styl pada zależnie od tego, czy gra
 const playToggle = (index) => {
-
-	
 	const sound = sounds[index];
 	const pad = pads[index];
-
-	
 
 	if (sound.paused) {
 		// restart i odtwarzanie
@@ -115,8 +106,10 @@ const recordPads = () => {
 		recordBtn.style.boxShadow = 'none';
 		//buttony nie mogą być klikalne
 
-//stworzyć coś co będzie pushować elementy do tablicy
+		//stworzyć coś co będzie pushować elementy do tablicy
 
+
+		
 	}
 };
 //Po kliknięciu pada dźwięk się odtwarza i, jeśli trwa nagranie, zapisuje info o kliknięciu (co i kiedy).
@@ -125,7 +118,6 @@ const handlePadClick = (index) => {
 	playToggle(index); //funckja playToggle, której przekazuję index pada
 
 	if (isRecording) {
-		
 		//sprawdzamy czy trwa nagrywanie
 		recordedSequence.push({
 			//dodajemy nowy obiekt do tablicy
@@ -134,11 +126,6 @@ const handlePadClick = (index) => {
 		});
 	}
 };
-
-
-
-
-
 
 pads.forEach((pad, index) => {
 	pad.addEventListener('click', () => onPadClick(index));
@@ -160,13 +147,3 @@ pads.forEach((pad, index) => {
 		handlePadClick(index);
 	});
 });
-
-
-
-
-/* buttony nie mogą być klikalne w trakcie odtwarzania
-pushować nagrania do listy saved recordings
-dodać button x aby móc usuwać nagrania
-dodać info: you have no recordings yet
-lista schodząca animacją w dół i gradientem 
-przemyśleć kwestię buttona, może lepiej niech myrecordings pojawi się pod spodem, np. po kliknięciu stop, dodaje się do listy */

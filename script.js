@@ -16,7 +16,8 @@ const pad15 = document.querySelector('#pad15');
 const pad16 = document.querySelector('#pad16');
 const recordBtn = document.getElementById('recordBtn');
 
-const recordingList = document.getElementById('.recording-list');
+const recordingsContainer = document.querySelector('.recordings-container');
+
 
 const pads = [
 	pad1,

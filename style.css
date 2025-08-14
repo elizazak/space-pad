@@ -289,14 +289,22 @@ h1 {
 
 .recordings-area {
 	width: 350px;
-	display: flex;
+	display: none;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	margin: 30px auto;
 	gap: 20px;
-	display: none; /* Ukryte na początku */
+	
 
 	
+}
+
+.recording {
+	display: flex;
+	align-items: center;
+	margin: 20px;
+	width: 100%;
 }
 
 .play-btn, .pause-btn {

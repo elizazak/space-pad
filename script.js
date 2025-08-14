@@ -14,10 +14,19 @@ const pad13 = document.querySelector('#pad13');
 const pad14 = document.querySelector('#pad14');
 const pad15 = document.querySelector('#pad15');
 const pad16 = document.querySelector('#pad16');
-const recordBtn = document.getElementById('recordBtn');
+const recordBtn = document.querySelector('.record-btn');
 
-const recordingList = document.getElementById('.recording-list');
+const recordingsContainer = document.querySelector('.recordings-container');
 
+//zmienne do nagrywania
+
+let isRecording = false; // zmienna nagrywania
+let currentRecording = []; // bieżące kliknięcia padów
+let recordings = []; // lista wszystkich nagrań
+let maxRecordings = 5; // max 5 nagrań
+const recordingVariables = [null, null, null, null, null]; // recording1 do recording5
+
+//pady zebrane w tablicę, żeby można było po nich iterować, np. funkcja forEach
 const pads = [
 	pad1,
 	pad2,
@@ -57,93 +66,146 @@ const sounds = [
 	new Audio('sounds/hi.mp3'),
 ];
 
-let isRecording = false; // po to aby wiedzieć czy się nagrywa czy nie
-let recordedSequence = []; //tablica, która będzie zawierać zarejestrowae dźwięki/historię kliknięć, czyli jaki pad został kliknięty po jakim czasie od startu nagrywania, każdy element w tej tablic to obiekt
-let startTime; //czas kiedy użytkownik rozpoczął nagranie
-let isPlaying = false;
-let savedRecordings = []; // tablica nagrań
 
-const onPadClick = (index) => {
-	if (isPlaying) {
-		// jeśli trwa odtwarzanie, ignorujemy kliknięcie
-		return;
-	}
-	playToggle(index);
-	handlePadClick(index);
-};
 
 //Funkcja włącza lub wyłącza dźwięk pada i zmienia styl pada zależnie od tego, czy gra
 const playToggle = (index) => {
-	const sound = sounds[index];
-	const pad = pads[index];
+	const sound = sounds[index]; //dźwięk z tej samej pozycji co pad
+	const pad = pads[index]; //pad z tej samej pozycji
 
-	if (sound.paused) {
+	if (sound.paused) {// jeśli dźwięk nie gra, wbudowana właściwość
 		// restart i odtwarzanie
 		sound.currentTime = 0; //ustawiamy że audio gra od zera
 		sound.play(); //to po prostu zaczyna puszczać audio
 
 		pad.classList.add('playing');
+
+		if (isRecording) {
+			currentRecording.push({ index, time: Date.now() }); // zapisanie indexu i czasu
+		}
 	} else {
 		sound.pause();
 		pad.classList.remove('playing');
 	}
+
+
+
+
+
 };
 
-const handleEnded = (i) => () => {
-	pads[i].classList.remove('playing');
-};
-
-const recordPads = () => {
-	isRecording = !isRecording;
-
-	if (isRecording) {
-		recordedSequence = []; //czyścimy tablicę (miejsce na nowe nagranie)
-		startTime = Date.now(); //zwraca liczbę milisekund od tzw. epoki UNIX-a (1 stycznia 1970)
-		recordBtn.style.color = '#d31e1eff';
-		recordBtn.style.boxShadow = '0 0 5px #d31e1eff';
-	} else {
-		recordBtn.style.color = 'rgba(255, 255, 255, 0.5)';
-		recordBtn.style.boxShadow = 'none';
-		//buttony nie mogą być klikalne
-
-		//stworzyć coś co będzie pushować elementy do tablicy
-
-
-		
+const recordToggle = () => {
+		if (!isRecording && recordings.length < maxRecordings) {
+		startRecording(); 
+	} else if (isRecording) {
+		stopRecording(); 
 	}
-};
-//Po kliknięciu pada dźwięk się odtwarza i, jeśli trwa nagranie, zapisuje info o kliknięciu (co i kiedy).
-const handlePadClick = (index) => {
-	//funkcja która przyjmuje parametr, index pada, który został kliknięty
-	playToggle(index); //funckja playToggle, której przekazuję index pada
+}
 
-	if (isRecording) {
-		//sprawdzamy czy trwa nagrywanie
-		recordedSequence.push({
-			//dodajemy nowy obiekt do tablicy
-			index: index, // index pada
-			timestamp: Date.now() - startTime, //oblicza upływ czasu w milisekundach od momentu rozpoczęcia nagrywania
+const startRecording = () => {
+	isRecording = true;
+	currentRecording = []; //wyczyszczenie tablicy
+	recordBtn.style.color = 'red';
+}
+
+const stopRecording = () => {
+	isRecording = false; 
+	recordBtn.style.color = '';
+
+	const recordingData = [...currentRecording]; // kopiowanie nagrania
+	recordings.push(recordingData); // dodanie do listy nagrań
+
+	recordingVariables[recordings.length - 1] = recordingData; // przypisanie recording1, recording2...
+
+	showRecording(recordings.length - 1); //pokazanie nagrania, dodanie dynamicznie
+}
+
+
+//.....................................................................
+
+// Funkcja tworząca i wyświetlająca nowe nagrania
+function showRecording(index) {
+	const recordingsArea = document.querySelector('.recordings-area');
+	recordingsArea.style.display = 'flex'; // kontener
+
+	const recordingDiv = document.createElement('div');
+	recordingDiv.classList.add('recording');
+
+	const playBtn = document.createElement('button');
+	playBtn.classList.add('play-btn');
+	playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+
+	const pauseBtn = document.createElement('button');
+	pauseBtn.classList.add('pause-btn');
+	pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+
+	const progressBar = document.createElement('input');
+	progressBar.setAttribute('type', 'range');
+	progressBar.setAttribute('value', '0');
+	progressBar.setAttribute('max', '100');
+	progressBar.classList.add('progress-bar');
+
+	const removeBtn = document.createElement('button');
+	removeBtn.classList.add('remove-btn');
+	removeBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+	recordingDiv.appendChild(playBtn);
+	recordingDiv.appendChild(pauseBtn);
+	recordingDiv.appendChild(progressBar);
+	recordingDiv.appendChild(removeBtn);
+
+	document.querySelector('.recordings-area').appendChild(recordingDiv);
+
+	// Odtwarzanie nagrania
+	let playbackTimeouts = [];
+	let startTime = null;
+
+	playBtn.addEventListener('click', () => {
+		playBtn.style.display = 'none';
+		pauseBtn.style.display = 'inline-block';
+		startTime = Date.now();
+
+		const data = recordingVariables[index];
+		if (!data || data.length === 0) return;
+
+		const start = data[0].time;
+
+		data.forEach(event => {
+			const delay = event.time - start;
+			const timeout = setTimeout(() => {
+				playToggle(event.index);
+			}, delay);
+			playbackTimeouts.push(timeout);
 		});
-	}
-};
-
-pads.forEach((pad, index) => {
-	pad.addEventListener('click', () => onPadClick(index));
 });
+}
 
+
+
+
+
+//....................................................................
+
+
+
+
+
+
+
+
+//Dla każdego pada w tablicy pads, jego index przekazywany jest do funkcji playToggle(index).
 pads.forEach((pad, index) => {
 	pad.addEventListener('click', () => playToggle(index));
 });
 
-sounds.forEach((sound, i) => {
-	sound.addEventListener('ended', handleEnded(i));
+
+const handleEnded = (index) => {
+  pads[index].classList.remove('playing');
+};
+
+sounds.forEach((sound, index) => {
+  sound.addEventListener('ended', () => handleEnded(index));
 });
 
-recordBtn.addEventListener('click', recordPads);
 
-pads.forEach((pad, index) => {
-	pad.addEventListener('click', () => {
-		playToggle(index);
-		handlePadClick(index);
-	});
-});
+recordBtn.addEventListener('click', recordToggle)

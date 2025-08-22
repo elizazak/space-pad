@@ -284,10 +284,14 @@ h1 {
 }
 
 .record-btn{
-	margin-bottom: 100px;
+	margin-bottom: 50px;
 }
 
 .recordings-area {
+	position: absolute;
+	top: 1020px; /* lub top, left, right — zależy, gdzie chcesz mieć nagrania */
+    left: 50%;
+    transform: translateX(-50%);
 	width: 350px;
 	display: none;
 	flex-direction: column;
@@ -301,10 +305,14 @@ h1 {
 }
 
 .recording {
+	padding: 5px 10px;
 	display: flex;
 	align-items: center;
-	margin: 20px;
+	margin: 0;
 	width: 100%;
+	border-radius: 8px;
+	box-shadow: 0 0 5px #513480;
+ z-index: 1000;
 }
 
 .play-btn, .pause-btn {
@@ -313,7 +321,7 @@ h1 {
 
 	border: none;
 	background: none;
-	color: #ca9ec7;
+	color: #876885;
 	
 	
 	cursor: pointer;
@@ -344,7 +352,7 @@ h1 {
   width: 15px;  /* Szerokość kulki */
   height: 15px;  /* Wysokość kulki */
   border: none;
-  background: #ca9ec7;  /* Kolor kulki */
+  background: #876885;  /* Kolor kulki */
   border-radius: 50%;  /* Kulka o okrągłym kształcie */
   cursor: pointer;
 }
@@ -353,7 +361,7 @@ h1 {
   width: 15px;
   height: 15px;
   border: none;
-  background: #ca9ec7;  /* Twój kolor */
+  background: #876885;  /* Twój kolor */
   border-radius: 50%;
   cursor: pointer;
 }
@@ -376,7 +384,7 @@ padding: 5px 10px;
 
 	background: none;
 	border: none;
-	color: #ca9ec7;
+	color: #876885;
 	
 	
 	cursor: pointer;

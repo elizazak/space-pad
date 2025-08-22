@@ -15,6 +15,7 @@ const pad14 = document.querySelector('#pad14');
 const pad15 = document.querySelector('#pad15');
 const pad16 = document.querySelector('#pad16');
 const recordBtn = document.querySelector('.record-btn');
+const p = document.querySelector('p')
 
 const recordingsContainer = document.querySelector('.recordings-container');
 
@@ -66,14 +67,13 @@ const sounds = [
 	new Audio('sounds/hi.mp3'),
 ];
 
-
-
 //Funkcja włącza lub wyłącza dźwięk pada i zmienia styl pada zależnie od tego, czy gra
 const playToggle = (index) => {
 	const sound = sounds[index]; //dźwięk z tej samej pozycji co pad
 	const pad = pads[index]; //pad z tej samej pozycji
 
-	if (sound.paused) {// jeśli dźwięk nie gra, wbudowana właściwość
+	if (sound.paused) {
+		// jeśli dźwięk nie gra, wbudowana właściwość
 		// restart i odtwarzanie
 		sound.currentTime = 0; //ustawiamy że audio gra od zera
 		sound.play(); //to po prostu zaczyna puszczać audio
@@ -81,35 +81,39 @@ const playToggle = (index) => {
 		pad.classList.add('playing');
 
 		if (isRecording) {
-			currentRecording.push({ index, time: Date.now() }); // zapisanie indexu i czasu
+			currentRecording.push({ index, time: Date.now(), type:'start' }); // zapisanie indexu i czasu
 		}
 	} else {
 		sound.pause();
 		pad.classList.remove('playing');
+
+			if (isRecording) {
+			currentRecording.push({ index, time: Date.now(), type:'stop' }); // zapisanie indexu i czasu
+		}
 	}
-
-
-
-
-
 };
 
 const recordToggle = () => {
-		if (!isRecording && recordings.length < maxRecordings) {
-		startRecording(); 
+	const activeRecordings = recordings.filter(r => r !== null);
+
+	if (!isRecording && activeRecordings.length < maxRecordings) {
+		startRecording();
+		p.textContent = ''; // czyści komunikat, jeśli wcześniej się pojawił
 	} else if (isRecording) {
-		stopRecording(); 
+		stopRecording();
+	} else {
+		p.textContent = 'You have reached the maximum number of recordings.';
 	}
-}
+};
 
 const startRecording = () => {
 	isRecording = true;
 	currentRecording = []; //wyczyszczenie tablicy
 	recordBtn.style.color = 'red';
-}
+};
 
 const stopRecording = () => {
-	isRecording = false; 
+	isRecording = false;
 	recordBtn.style.color = '';
 
 	const recordingData = [...currentRecording]; // kopiowanie nagrania
@@ -118,8 +122,7 @@ const stopRecording = () => {
 	recordingVariables[recordings.length - 1] = recordingData; // przypisanie recording1, recording2...
 
 	showRecording(recordings.length - 1); //pokazanie nagrania, dodanie dynamicznie
-}
-
+};
 
 //.....................................................................
 
@@ -170,42 +173,78 @@ function showRecording(index) {
 
 		const start = data[0].time;
 
-		data.forEach(event => {
+		data.forEach((event) => {
 			const delay = event.time - start;
+			
+
 			const timeout = setTimeout(() => {
-				playToggle(event.index);
-			}, delay);
+	if (event.type === 'start') {
+		sounds[event.index].currentTime = 0;
+		sounds[event.index].play();
+		pads[event.index].classList.add('playing');
+	} else if (event.type === 'stop') {
+		sounds[event.index].pause();
+		pads[event.index].classList.remove('playing');
+	}
+}, delay);
+
+
 			playbackTimeouts.push(timeout);
 		});
+
+		const lastEventTime = data[data.length - 1].time - start;
+	const endTimeout = setTimeout(() => {
+		playBtn.style.display = 'inline-block';
+		pauseBtn.style.display = 'none';
+	}, lastEventTime + 50);
+
+	playbackTimeouts.push(endTimeout);
+	});
+
+
+
+	pauseBtn.addEventListener('click', () => {
+		pauseBtn.style.display = 'none';
+		playBtn.style.display = 'flex';
+
+		// 1. zatrzymanie time outów
+		playbackTimeouts.forEach((timeout) => clearTimeout(timeout));
+		playbackTimeouts = [];
+
+		// 2. zatrzymanie dźwięków
+		sounds.forEach((sound, i) => {
+			sound.pause();
+		/*	sound.currentTime = 0; zerowanie nagrania*/
+			pads[i].classList.remove('playing');
+		
+		});
+	});
+
+	removeBtn.addEventListener('click', () => {
+	recordingDiv.remove(); // usuwa cały kontener nagrania z DOM
+	recordings[index] = null; // usuwa dane nagrania z tablicy recordings
+	recordingVariables[index] = null; // usuwa dane nagrania z recordingVariables
+	p.textContent = '';
 });
+
+
+
+
 }
 
-
-
-
-
 //....................................................................
-
-
-
-
-
-
-
 
 //Dla każdego pada w tablicy pads, jego index przekazywany jest do funkcji playToggle(index).
 pads.forEach((pad, index) => {
 	pad.addEventListener('click', () => playToggle(index));
 });
 
-
 const handleEnded = (index) => {
-  pads[index].classList.remove('playing');
+	pads[index].classList.remove('playing');
 };
 
 sounds.forEach((sound, index) => {
-  sound.addEventListener('ended', () => handleEnded(index));
+	sound.addEventListener('ended', () => handleEnded(index));
 });
 
-
-recordBtn.addEventListener('click', recordToggle)
+recordBtn.addEventListener('click', recordToggle);

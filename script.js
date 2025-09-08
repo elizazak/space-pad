@@ -1,21 +1,6 @@
-const pad1 = document.querySelector('#pad1');
-const pad2 = document.querySelector('#pad2');
-const pad3 = document.querySelector('#pad3');
-const pad4 = document.querySelector('#pad4');
-const pad5 = document.querySelector('#pad5');
-const pad6 = document.querySelector('#pad6');
-const pad7 = document.querySelector('#pad7');
-const pad8 = document.querySelector('#pad8');
-const pad9 = document.querySelector('#pad9');
-const pad10 = document.querySelector('#pad10');
-const pad11 = document.querySelector('#pad11');
-const pad12 = document.querySelector('#pad12');
-const pad13 = document.querySelector('#pad13');
-const pad14 = document.querySelector('#pad14');
-const pad15 = document.querySelector('#pad15');
-const pad16 = document.querySelector('#pad16');
+const pads = Array.from(document.querySelectorAll('.pad'));
 const recordBtn = document.querySelector('.record-btn');
-const p = document.querySelector('p')
+const p = document.querySelector('p');
 
 const recordingsContainer = document.querySelector('.recordings-container');
 
@@ -27,25 +12,7 @@ let recordings = []; // lista wszystkich nagrań
 let maxRecordings = 5; // max 5 nagrań
 const recordingVariables = [null, null, null, null, null]; // recording1 do recording5
 
-//pady zebrane w tablicę, żeby można było po nich iterować, np. funkcja forEach
-const pads = [
-	pad1,
-	pad2,
-	pad3,
-	pad4,
-	pad5,
-	pad6,
-	pad7,
-	pad8,
-	pad9,
-	pad10,
-	pad11,
-	pad12,
-	pad13,
-	pad14,
-	pad15,
-	pad16,
-];
+
 
 /* tablica (array), ma metody jak .forEach(), .map(), .filter() */
 const sounds = [
@@ -81,20 +48,20 @@ const playToggle = (index) => {
 		pad.classList.add('playing');
 
 		if (isRecording) {
-			currentRecording.push({ index, time: Date.now(), type:'start' }); // zapisanie indexu i czasu
+			currentRecording.push({ index, time: Date.now(), type: 'start' }); // zapisanie indexu i czasu
 		}
 	} else {
 		sound.pause();
 		pad.classList.remove('playing');
 
-			if (isRecording) {
-			currentRecording.push({ index, time: Date.now(), type:'stop' }); // zapisanie indexu i czasu
+		if (isRecording) {
+			currentRecording.push({ index, time: Date.now(), type: 'stop' }); // zapisanie indexu i czasu
 		}
 	}
 };
 
 const recordToggle = () => {
-	const activeRecordings = recordings.filter(r => r !== null);
+	const activeRecordings = recordings.filter((r) => r !== null);
 
 	if (!isRecording && activeRecordings.length < maxRecordings) {
 		startRecording();
@@ -113,15 +80,23 @@ const startRecording = () => {
 };
 
 const stopRecording = () => {
+	// Sprawdź, czy jakikolwiek dźwięk jest aktywny (grający pad)
+	const anyPlaying = sounds.some(sound => !sound.paused);
+
+	if (anyPlaying) {
+		p.textContent = 'Cannot stop recording while sounds are still playing.';
+		return; // zablokuj zatrzymanie nagrywania
+	}
+
+	// Wszystko OK – można zakończyć nagrywanie
 	isRecording = false;
 	recordBtn.style.color = '';
 
-	const recordingData = [...currentRecording]; // kopiowanie nagrania
-	recordings.push(recordingData); // dodanie do listy nagrań
+	const recordingData = [...currentRecording];
+	recordings.push(recordingData);
+	recordingVariables[recordings.length - 1] = recordingData;
 
-	recordingVariables[recordings.length - 1] = recordingData; // przypisanie recording1, recording2...
-
-	showRecording(recordings.length - 1); //pokazanie nagrania, dodanie dynamicznie
+	showRecording(recordings.length - 1);
 };
 
 //.....................................................................
@@ -129,7 +104,7 @@ const stopRecording = () => {
 // Funkcja tworząca i wyświetlająca nowe nagrania
 function showRecording(index) {
 	const recordingsArea = document.querySelector('.recordings-area');
-	recordingsArea.style.display = 'flex'; // kontener
+	recordingsArea.style.display = 'flex';
 
 	const recordingDiv = document.createElement('div');
 	recordingDiv.classList.add('recording');
@@ -141,6 +116,7 @@ function showRecording(index) {
 	const pauseBtn = document.createElement('button');
 	pauseBtn.classList.add('pause-btn');
 	pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+	pauseBtn.style.display = 'none'; // domyślnie ukryta
 
 	const progressBar = document.createElement('input');
 	progressBar.setAttribute('type', 'range');
@@ -156,81 +132,140 @@ function showRecording(index) {
 	recordingDiv.appendChild(pauseBtn);
 	recordingDiv.appendChild(progressBar);
 	recordingDiv.appendChild(removeBtn);
+	recordingsArea.appendChild(recordingDiv);
 
-	document.querySelector('.recordings-area').appendChild(recordingDiv);
-
-	// Odtwarzanie nagrania
+	// === ODTWARZANIE ===
 	let playbackTimeouts = [];
 	let startTime = null;
+	let animationFrameId = null;
 
+	// Funkcja do aktualizacji progress bara
+	function updateProgressBar() {
+		const now = Date.now();
+		const elapsed = now - startTime;
+		const data = recordingVariables[index];
+		const duration = data[data.length - 1].time - data[0].time;
+
+		const progress = (elapsed / duration) * 100;
+		progressBar.value = Math.min(progress, 100);
+
+		if (elapsed < duration) {
+			animationFrameId = requestAnimationFrame(updateProgressBar);
+		}
+	}
+
+	// === PLAY ===
 	playBtn.addEventListener('click', () => {
 		playBtn.style.display = 'none';
 		pauseBtn.style.display = 'inline-block';
-		startTime = Date.now();
 
 		const data = recordingVariables[index];
 		if (!data || data.length === 0) return;
 
 		const start = data[0].time;
+		startTime = Date.now();
 
 		data.forEach((event) => {
 			const delay = event.time - start;
-			
 
 			const timeout = setTimeout(() => {
-	if (event.type === 'start') {
-		sounds[event.index].currentTime = 0;
-		sounds[event.index].play();
-		pads[event.index].classList.add('playing');
-	} else if (event.type === 'stop') {
-		sounds[event.index].pause();
-		pads[event.index].classList.remove('playing');
-	}
-}, delay);
-
+				if (event.type === 'start') {
+					sounds[event.index].currentTime = 0;
+					sounds[event.index].play();
+					pads[event.index].classList.add('playing');
+				} else if (event.type === 'stop') {
+					sounds[event.index].pause();
+					pads[event.index].classList.remove('playing');
+				}
+			}, delay);
 
 			playbackTimeouts.push(timeout);
 		});
 
 		const lastEventTime = data[data.length - 1].time - start;
-	const endTimeout = setTimeout(() => {
-		playBtn.style.display = 'inline-block';
-		pauseBtn.style.display = 'none';
-	}, lastEventTime + 50);
+		const endTimeout = setTimeout(() => {
+			playBtn.style.display = 'inline-block';
+			pauseBtn.style.display = 'none';
+			progressBar.value = 0;
+			cancelAnimationFrame(animationFrameId);
+		}, lastEventTime + 50);
+		playbackTimeouts.push(endTimeout);
 
-	playbackTimeouts.push(endTimeout);
+		updateProgressBar();
 	});
 
-
-
+	// === PAUSE ===
 	pauseBtn.addEventListener('click', () => {
 		pauseBtn.style.display = 'none';
-		playBtn.style.display = 'flex';
+		playBtn.style.display = 'inline-block';
 
-		// 1. zatrzymanie time outów
 		playbackTimeouts.forEach((timeout) => clearTimeout(timeout));
 		playbackTimeouts = [];
 
-		// 2. zatrzymanie dźwięków
 		sounds.forEach((sound, i) => {
 			sound.pause();
-		/*	sound.currentTime = 0; zerowanie nagrania*/
 			pads[i].classList.remove('playing');
-		
 		});
+
+		cancelAnimationFrame(animationFrameId);
 	});
 
+	// === DELETE ===
 	removeBtn.addEventListener('click', () => {
-	recordingDiv.remove(); // usuwa cały kontener nagrania z DOM
-	recordings[index] = null; // usuwa dane nagrania z tablicy recordings
-	recordingVariables[index] = null; // usuwa dane nagrania z recordingVariables
-	p.textContent = '';
-});
+		recordingDiv.remove();
+		recordings[index] = null;
+		recordingVariables[index] = null;
+		p.textContent = '';
+	});
 
+	// === SEEK (PRZESUWANIE KULKI) ===
+	progressBar.addEventListener('input', () => {
+		const data = recordingVariables[index];
+		if (!data || data.length === 0) return;
 
+		playbackTimeouts.forEach((timeout) => clearTimeout(timeout));
+		playbackTimeouts = [];
 
+		sounds.forEach((sound, i) => {
+			sound.pause();
+			pads[i].classList.remove('playing');
+		});
+		cancelAnimationFrame(animationFrameId);
 
+		const duration = data[data.length - 1].time - data[0].time;
+		const newTime = (progressBar.value / 100) * duration;
+		startTime = Date.now() - newTime;
+
+		data.forEach((event) => {
+			const relativeTime = event.time - data[0].time;
+
+			if (relativeTime >= newTime) {
+				const delay = relativeTime - newTime;
+
+				const timeout = setTimeout(() => {
+					if (event.type === 'start') {
+						sounds[event.index].currentTime = 0;
+						sounds[event.index].play();
+						pads[event.index].classList.add('playing');
+					} else if (event.type === 'stop') {
+						sounds[event.index].pause();
+						pads[event.index].classList.remove('playing');
+					}
+				}, delay);
+
+				playbackTimeouts.push(timeout);
+			}
+		});
+
+		updateProgressBar();
+		
+// pause/play
+playBtn.style.display = 'none';
+pauseBtn.style.display = 'inline-block';
+	});
 }
+
+
 
 //....................................................................
 

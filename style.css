@@ -283,15 +283,15 @@ h1 {
 	scale: 1.1;
 }
 
-.record-btn{
-	margin-bottom: 50px;
+.record-btn {
+	margin-bottom: 30px;
 }
 
 .recordings-area {
 	position: absolute;
-	top: 1020px; /* lub top, left, right — zależy, gdzie chcesz mieć nagrania */
-    left: 50%;
-    transform: translateX(-50%);
+	top: 1050px; /* lub top, left, right — zależy, gdzie chcesz mieć nagrania */
+	left: 50%;
+	transform: translateX(-50%);
 	width: 350px;
 	display: none;
 	flex-direction: column;
@@ -299,9 +299,6 @@ h1 {
 	align-items: center;
 	margin: 30px auto;
 	gap: 20px;
-	
-
-	
 }
 
 .recording {
@@ -312,24 +309,24 @@ h1 {
 	width: 100%;
 	border-radius: 8px;
 	box-shadow: 0 0 5px #513480;
- z-index: 1000;
+	z-index: 1000;
 }
 
-.play-btn, .pause-btn {
+.play-btn,
+.pause-btn {
 	font-size: 20px;
 	padding: 5px 10px;
 
 	border: none;
 	background: none;
 	color: #876885;
-	
-	
+
 	cursor: pointer;
-	transition: color .3s;
-	
+	transition: color 0.3s;
 }
 
-.play-btn:hover, .pause-btn:hover {
+.play-btn:hover,
+.pause-btn:hover {
 	color: #6b285b;
 }
 
@@ -338,70 +335,66 @@ h1 {
 }
 
 .progress-bar {
-  -webkit-appearance: none;  /* Usuwa domyślny wygląd w przeglądarkach WebKit (np. Chrome, Safari) */
-  appearance: none;  /* Usuwa domyślny wygląd we wszystkich przeglądarkach */
-  width: 100%;  /* Ustawia szerokość paska na 100% */
-  max-width: 350px;
-  height: 8px;  /* Wysokość paska */
-  border-radius: 5px;  /* Zaokrąglenie rogów */
-  background: #483847;  /* Kolor tła progressbara (szary) */
+	-webkit-appearance: none; /* Usuwa domyślny wygląd w przeglądarkach WebKit (np. Chrome, Safari) */
+	appearance: none; /* Usuwa domyślny wygląd we wszystkich przeglądarkach */
+	width: 100%; /* Ustawia szerokość paska na 100% */
+	max-width: 350px;
+	height: 8px; /* Wysokość paska */
+	border-radius: 5px; /* Zaokrąglenie rogów */
+	background: #483847; /* Kolor tła progressbara (szary) */
 }
 
 /*Firefox */
 .progress-bar::-moz-range-thumb {
-  width: 15px;  /* Szerokość kulki */
-  height: 15px;  /* Wysokość kulki */
-  border: none;
-  background: #876885;  /* Kolor kulki */
-  border-radius: 50%;  /* Kulka o okrągłym kształcie */
-  cursor: pointer;
+	width: 15px; /* Szerokość kulki */
+	height: 15px; /* Wysokość kulki */
+	border: none;
+	background: #876885; /* Kolor kulki */
+	border-radius: 50%; /* Kulka o okrągłym kształcie */
+	cursor: pointer;
 }
 /* Chrome, Safari, Edge */
 .progress-bar::-webkit-slider-thumb {
-  width: 15px;
-  height: 15px;
-  border: none;
-  background: #876885;  /* Twój kolor */
-  border-radius: 50%;
-  cursor: pointer;
+	width: 15px;
+	height: 15px;
+	border: none;
+	background: #876885; /* Twój kolor */
+	border-radius: 50%;
+	cursor: pointer;
 }
 
 .progress-bar::-webkit-slider-runnable-track {
-  background: #6b285b;
-  box-shadow: 0 0 5px #ff33cf;
+	background: #6b285b;
+	box-shadow: 0 0 5px #ff33cf;
 }
 
 .progress-bar::-moz-range-progress {
-  background: #6b285b;
-  box-shadow: 0 0 5px #ff33cf;
+	background: #6b285b;
+	box-shadow: 0 0 5px #ff33cf;
 }
-
 
 .remove-btn {
 	font-size: 18px;
-padding: 5px 10px;
-
+	padding: 5px 10px;
 
 	background: none;
 	border: none;
 	color: #876885;
-	
-	
-	cursor: pointer;
-	transition: color .3s;
-}
 
+	cursor: pointer;
+	transition: color 0.3s;
+}
 
 .remove-btn:hover {
 	color: #6b285b;
 }
 
-.recording p {
-	font-size: 18px;
+.controls-area p {
+	font-size: 16px;
+	margin-bottom: 10px;
 
 	letter-spacing: 1px;
 	color: #d8d8d8;
-	
 }
 
 .buttons-container {

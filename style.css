@@ -9,7 +9,7 @@ body {
 	height: 100vh;
 	font-family: 'Genos', sans-serif;
 	background-color: rgb(7, 1, 12);
-	color: #fff;
+	color: #cacaca;
 	text-transform: uppercase;
 	overflow: hidden;
 }
@@ -394,7 +394,7 @@ h1 {
 	margin-bottom: 10px;
 
 	letter-spacing: 1px;
-	color: #d8d8d8;
+	color: #09ff3a;
 }
 
 .buttons-container {

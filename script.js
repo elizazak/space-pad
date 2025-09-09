@@ -36,6 +36,7 @@ const sounds = [
 
 //Funkcja włącza lub wyłącza dźwięk pada i zmienia styl pada zależnie od tego, czy gra
 const playToggle = (index) => {
+	p.textContent = '';
 	const sound = sounds[index]; //dźwięk z tej samej pozycji co pad
 	const pad = pads[index]; //pad z tej samej pozycji
 
@@ -140,59 +141,120 @@ function showRecording(index) {
 	let animationFrameId = null;
 
 	// Funkcja do aktualizacji progress bara
-	function updateProgressBar() {
-		const now = Date.now();
-		const elapsed = now - startTime;
-		const data = recordingVariables[index];
-		const duration = data[data.length - 1].time - data[0].time;
+function updateProgressBar() {
+	const now = Date.now();
+	const elapsed = now - startTime;
+	const data = recordingVariables[index];
+	const duration = data[data.length - 1].time - data[0].time;
 
-		const progress = (elapsed / duration) * 100;
-		progressBar.value = Math.min(progress, 100);
+	const progress = (elapsed / duration) * 100;
+	progressBar.value = Math.min(progress, 100);
 
-		if (elapsed < duration) {
-			animationFrameId = requestAnimationFrame(updateProgressBar);
-		}
-	}
-
-	// === PLAY ===
-	playBtn.addEventListener('click', () => {
-		playBtn.style.display = 'none';
-		pauseBtn.style.display = 'inline-block';
-
-		const data = recordingVariables[index];
-		if (!data || data.length === 0) return;
-
-		const start = data[0].time;
-		startTime = Date.now();
-
-		data.forEach((event) => {
-			const delay = event.time - start;
-
-			const timeout = setTimeout(() => {
-				if (event.type === 'start') {
-					sounds[event.index].currentTime = 0;
-					sounds[event.index].play();
-					pads[event.index].classList.add('playing');
-				} else if (event.type === 'stop') {
-					sounds[event.index].pause();
-					pads[event.index].classList.remove('playing');
-				}
-			}, delay);
-
-			playbackTimeouts.push(timeout);
+	if (elapsed < duration) {
+		animationFrameId = requestAnimationFrame(updateProgressBar);
+	} else {
+		// === KONIEC NAGRANIA ===
+		// Zatrzymaj wszystkie dźwięki i usuń klasy playing
+		sounds.forEach((sound, i) => {
+			sound.pause();
+			pads[i].classList.remove('playing');
 		});
 
-		const lastEventTime = data[data.length - 1].time - start;
-		const endTimeout = setTimeout(() => {
-			playBtn.style.display = 'inline-block';
-			pauseBtn.style.display = 'none';
-			progressBar.value = 0;
-			cancelAnimationFrame(animationFrameId);
-		}, lastEventTime + 50);
-		playbackTimeouts.push(endTimeout);
+		// Reset stanu
+		playBtn.style.display = 'inline-block';
+		pauseBtn.style.display = 'none';
+		progressBar.value = 0;
+		startTime = null;
+		playbackTimeouts = [];
 
-		updateProgressBar();
+		cancelAnimationFrame(animationFrameId);
+	}
+}
+
+
+	// === PLAY ===
+playBtn.addEventListener('click', () => {
+	playBtn.style.display = 'none';
+	pauseBtn.style.display = 'inline-block';
+
+	const data = recordingVariables[index];
+	if (!data || data.length === 0) return;
+
+	const start = data[0].time;
+	const end = data[data.length - 1].time;
+	const duration = end - start;
+
+	startTime = Date.now() - (progressBar.value / 100) * duration; // uwzględniamy offset wg progress bara
+
+	// Zatrzymaj wszystkie dźwięki i usuń klasy 'playing' przed nowym odtworzeniem
+	sounds.forEach((sound, i) => {
+		sound.pause();
+		pads[i].classList.remove('playing');
 	});
+
+	// Określ, które pady powinny być aktualnie aktywne (czyli "włączone" w aktualnym czasie)
+	const currentTime = (progressBar.value / 100) * duration;
+	const activePads = new Set();
+
+	for (const event of data) {
+		const eventTime = event.time - start;
+		if (eventTime > currentTime) break;
+
+		if (event.type === 'start') activePads.add(event.index);
+		else if (event.type === 'stop') activePads.delete(event.index);
+	}
+
+	// Odtwórz pady, które są aktualnie aktywne
+	activePads.forEach(i => {
+		sounds[i].currentTime = 0;
+		sounds[i].play();
+		pads[i].classList.add('playing');
+	});
+
+	// Zaplanuj kolejne zdarzenia od currentTime wzwyż
+	playbackTimeouts = [];
+
+	data.forEach(event => {
+		const eventTime = event.time - start;
+		if (eventTime < currentTime) return;
+
+		const delay = eventTime - currentTime;
+
+		const timeout = setTimeout(() => {
+			if (event.type === 'start') {
+				sounds[event.index].currentTime = 0;
+				sounds[event.index].play();
+				pads[event.index].classList.add('playing');
+			} else if (event.type === 'stop') {
+				sounds[event.index].pause();
+				pads[event.index].classList.remove('playing');
+			}
+		}, delay);
+
+		playbackTimeouts.push(timeout);
+	});
+
+const lastEventTime = data[data.length - 1].time - start;
+const endTimeout = setTimeout(() => {
+	// Zatrzymaj wszystkie dźwięki i zdejmij klasy 'playing'
+	sounds.forEach((sound, i) => {
+		sound.pause();
+		pads[i].classList.remove('playing');
+	});
+
+	// Zresetuj stan
+	playBtn.style.display = 'inline-block';
+	pauseBtn.style.display = 'none';
+	progressBar.value = 0;
+	startTime = null;
+	playbackTimeouts = [];
+
+	cancelAnimationFrame(animationFrameId);
+}, lastEventTime - currentTime + 50);
+playbackTimeouts.push(endTimeout);
+
+	updateProgressBar();
+});
 
 	// === PAUSE ===
 	pauseBtn.addEventListener('click', () => {
@@ -235,6 +297,26 @@ function showRecording(index) {
 		const duration = data[data.length - 1].time - data[0].time;
 		const newTime = (progressBar.value / 100) * duration;
 		startTime = Date.now() - newTime;
+
+
+//....
+	const activePads = new Set();
+
+	for (const event of data) {
+		const eventTime = event.time - data[0].time;
+		if (eventTime > newTime) break;
+
+		if (event.type === 'start') activePads.add(event.index);
+		else if (event.type === 'stop') activePads.delete(event.index);
+	}
+
+	activePads.forEach(i => {
+		sounds[i].currentTime = 0;
+		sounds[i].play();
+		pads[i].classList.add('playing');
+	});
+//...
+
 
 		data.forEach((event) => {
 			const relativeTime = event.time - data[0].time;

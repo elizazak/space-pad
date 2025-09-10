@@ -1,17 +1,17 @@
-const pads = Array.from(document.querySelectorAll('.pad'));
+
+const pads = Array.from(document.querySelectorAll('.pad')); //konwertujemy NodeList do tablicy, aby działała jak tablica (koniec końców nie użyłam metod typowych dla tablic typu map czy filter, ale używamy forEach)
 const recordBtn = document.querySelector('.record-btn');
 const p = document.querySelector('p');
 
-const recordingsContainer = document.querySelector('.recordings-container');
+const recordingsContainer = document.querySelector('.recordings-container'); //tu wyświetlane są nagrania
 
 //zmienne do nagrywania
 
-let isRecording = false; // zmienna nagrywania
-let currentRecording = []; // bieżące kliknięcia padów
-let recordings = []; // lista wszystkich nagrań
-let maxRecordings = 5; // max 5 nagrań
-const recordingVariables = [null, null, null, null, null]; // recording1 do recording5
-
+let isRecording = false; // zmienna nagrywania, śledzeinie stanu, czy nagrywanie trwa - na początku działania programu nie, więc false
+let currentRecording = []; // tablica, która przechowuje aktualnie nagrywane kliknięcia padów + czas
+let recordings = []; // tablica wszystkich nagrań - każde nagranie to tablica wszystkich zdarzeń: index pada, time(czas kliknięcia), type(start lub stop ,  string z fragmentu funkcji playToggle), użyte w kontroli limitu nagrań, synchronizacji z recordingVariables,,,
+let maxRecordings = 5; // zmienna przechowująca maksymalną liczbę nagrań
+const recordingVariables = [null, null, null, null, null]; // 5x brak nagrań - później przypisane nagrania do indexu
 
 
 /* tablica (array), ma metody jak .forEach(), .map(), .filter() */
@@ -64,6 +64,12 @@ const playToggle = (index) => {
 const recordToggle = () => {
 	const activeRecordings = recordings.filter((r) => r !== null);
 
+		const isAnyPlaying = sounds.some(sound => !sound.paused);
+	if (isAnyPlaying) {
+		p.textContent = "Stop all sounds before recording.";
+		return; // przerwij — nie wchodź do startRecording
+	}
+
 	if (!isRecording && activeRecordings.length < maxRecordings) {
 		startRecording();
 		p.textContent = ''; // czyści komunikat, jeśli wcześniej się pojawił
@@ -75,9 +81,12 @@ const recordToggle = () => {
 };
 
 const startRecording = () => {
+
+
 	isRecording = true;
 	currentRecording = []; //wyczyszczenie tablicy
 	recordBtn.style.color = 'red';
+
 };
 
 const stopRecording = () => {
@@ -90,14 +99,20 @@ const stopRecording = () => {
 	}
 
 	// Wszystko OK – można zakończyć nagrywanie
-	isRecording = false;
-	recordBtn.style.color = '';
+isRecording = false;
+recordBtn.style.color = '';
 
-	const recordingData = [...currentRecording];
-	recordings.push(recordingData);
-	recordingVariables[recordings.length - 1] = recordingData;
+// Jeśli użytkownik nic nie nagrał, nie dodawaj pustego nagrania
+if (currentRecording.length === 0) {
+	p.textContent = "You didn't record anything.";
+	return;
+}
 
-	showRecording(recordings.length - 1);
+const recordingData = [...currentRecording];
+recordings.push(recordingData);
+recordingVariables[recordings.length - 1] = recordingData;
+
+showRecording(recordings.length - 1);
 };
 
 //.....................................................................

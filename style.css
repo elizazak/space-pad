@@ -288,17 +288,13 @@ h1 {
 }
 
 .recordings-area {
-	position: absolute;
-	top: 1050px; /* lub top, left, right — zależy, gdzie chcesz mieć nagrania */
-	left: 50%;
-	transform: translateX(-50%);
-	width: 350px;
-	display: none;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 30px auto;
-	gap: 20px;
+  width: 350px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+  gap: 20px;
 }
 
 .recording {
@@ -395,6 +391,8 @@ h1 {
 
 	letter-spacing: 1px;
 	color: #09ff3a;
+	min-height: 1.5em; /* w tym wypadku 24px, bo fz 16px - rezerwuje miejsce dla elementu, żeby nie przeskakiwało jak się pojawia*/
+	text-align: center;
 }
 
 .buttons-container {

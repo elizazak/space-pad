@@ -471,20 +471,31 @@ footer {
 }
 
 @media (max-width: 1024px) {
+	h1 {
+		font-size: 42px;
+	}
 }
 @media (max-width: 768px) {
+
+	footer {
+		
+		text-align: center;
+		font-size: 14px;
+		right: 5px;
+		left: 5px;
+	}
 }
 
 @media (max-width: 480px) {
 	.controls-area p {
 		font-size: 14px;
+		
 	}
 
 	footer {
 		bottom: 20px;
-		right: 5px;
-		left: 5px;
-		text-align: center;
+		
+		
 		font-size: 12px;
 	}
 }
@@ -532,14 +543,3 @@ footer {
 		display: none;
 	}
 }
-
-/*
-
-Rozmiar ekranu	Opis	@media zapytanie
-≤ 380px	📱 iPhone SE, mini itd.	@media (max-width: 380px)
-≤ 480px	📱 małe telefony	@media (max-width: 480px)
-≤ 768px	📱 tablety pionowo	@media (max-width: 768px)
-≤ 1024px	📱 tablety poziomo / 📺 małe laptopy	@media (max-width: 1024px)
-≤ 1280px	💻 laptopy standardowe	@media (max-width: 1280px)
-
-*/

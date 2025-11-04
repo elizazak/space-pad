@@ -467,7 +467,6 @@ footer {
 @media (max-width: 768px) {
 }
 
-
 @media (max-width: 480px) {
 	.controls-area p {
 		font-size: 14px;
@@ -483,14 +482,35 @@ footer {
 }
 
 @media (max-width: 380px) {
+	h1 {
+		padding: 10px;
+	}
+	footer {
+		bottom: 10px;
+		font-size: 10px;
+	}
+
+	.controls {
+		margin-top: 10px;
+	}
 
 	.controls-area p {
 		font-size: 12px;
+		
+	}
+
+	.recording {
+		padding: 2px 4px;
+	}
+	.recordings-area {
+		margin: 10px auto;
 	}
 }
 
 @media (max-width: 320px) {
-
+	.record-btn {
+		display: none;
+	}
 }
 
 /*

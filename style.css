@@ -490,7 +490,7 @@ footer {
 @media (max-width: 380px) {
  .wrapper {
     justify-content: flex-start; 
-    padding-top: 20px; 
+    padding-top: 10px; 
  
   }
 

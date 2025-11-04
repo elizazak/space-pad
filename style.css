@@ -4,16 +4,22 @@
 	padding: 0;
 }
 
+html,
 body {
-	position: relative;
-	height: 100vh;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
 	font-family: 'Genos', sans-serif;
 	background-color: rgb(7, 1, 12);
 	color: #cacaca;
 	text-transform: uppercase;
-	overflow: hidden;
-}
+	touch-action: none;
+	overscroll-behavior: none;
+} 
 
+/* html bo w wiekszosci przypadkow odpowiada za scroll strony */
 .stars {
 	position: fixed;
 	background-color: #fff;

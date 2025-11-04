@@ -490,12 +490,13 @@ footer {
 @media (max-width: 380px) {
  .wrapper {
     justify-content: flex-start; 
-    padding-top: 10px; 
+ 
  
   }
 
 	h1 {
 		padding: 10px;
+		font-size: 32px;
 	}
 	footer {
 		bottom: 10px;

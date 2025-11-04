@@ -10,8 +10,8 @@ const recordingsContainer = document.querySelector('.recordings-container'); //t
 let isRecording = false; // zmienna nagrywania, śledzeinie stanu, czy nagrywanie trwa - na początku działania programu nie, więc false
 let currentRecording = []; // tablica, która przechowuje aktualnie nagrywane kliknięcia padów + czas
 let recordings = []; // tablica wszystkich nagrań - każde nagranie to tablica wszystkich zdarzeń: index pada, time(czas kliknięcia), type(start lub stop ,  string z fragmentu funkcji playToggle), użyte w kontroli limitu nagrań, synchronizacji z recordingVariables,,,
-let maxRecordings = 5; // zmienna przechowująca maksymalną liczbę nagrań
-const recordingVariables = [null, null, null, null, null]; // 5x brak nagrań - później przypisane nagrania do indexu
+let maxRecordings = 3; // zmienna przechowująca maksymalną liczbę nagrań
+const recordingVariables = [null, null, null]; // 5x brak nagrań - później przypisane nagrania do indexu
 
 
 /* tablica (array), ma metody jak .forEach(), .map(), .filter() */

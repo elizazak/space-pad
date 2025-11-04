@@ -27,7 +27,7 @@ body {
 	opacity: 0.8;
 
 	animation: fall 5s linear infinite;
-	z-index: -1;
+	z-index: 0;
 }
 
 .wrapper {
@@ -53,6 +53,7 @@ h1 {
 	gap: 8px;
 	justify-content: center;
 	margin: 20px auto;
+	z-index: 0;
 }
 
 .pad-container button {
@@ -425,6 +426,7 @@ footer {
 	left: 10%;
 	animation-duration: 4s;
 	animation-delay: 0s;
+	z-index: 0;
 }
 
 .star2 {
@@ -521,6 +523,11 @@ footer {
 }
 
 @media (max-width: 320px) {
+	 .wrapper {
+    justify-content: center; 
+ 
+ 
+  }
 	.record-btn {
 		display: none;
 	}

@@ -17,9 +17,9 @@ body {
 	text-transform: uppercase;
 	touch-action: none;
 	overscroll-behavior: none;
-} 
-
+}
 /* html bo w wiekszosci przypadkow odpowiada za scroll strony */
+
 .stars {
 	position: fixed;
 	background-color: #fff;
@@ -343,20 +343,20 @@ h1 {
 .progress-bar {
 	-webkit-appearance: none; /* Usuwa domyślny wygląd w przeglądarkach WebKit (np. Chrome, Safari) */
 	appearance: none; /* Usuwa domyślny wygląd we wszystkich przeglądarkach */
-	width: 100%; /* Ustawia szerokość paska na 100% */
+	width: 100%;
 	max-width: 350px;
-	height: 4px; /* Wysokość paska */
-	border-radius: 5px; /* Zaokrąglenie rogów */
-	background: #483847; /* Kolor tła progressbara (szary) */
+	height: 4px;
+	border-radius: 5px;
+	background: #483847;
 }
 
 /*Firefox */
 .progress-bar::-moz-range-thumb {
-	width: 12px; /* Szerokość kulki */
-	height: 12px; /* Wysokość kulki */
+	width: 12px;
+	height: 12px;
 	border: none;
-	background: #876885; /* Kolor kulki */
-	border-radius: 50%; /* Kulka o okrągłym kształcie */
+	background: #876885;
+	border-radius: 50%;
 	cursor: pointer;
 }
 /* Chrome, Safari, Edge */
@@ -364,7 +364,7 @@ h1 {
 	width: 12px;
 	height: 12px;
 	border: none;
-	background: #876885; /* Twój kolor */
+	background: #876885;
 	border-radius: 50%;
 	cursor: pointer;
 }
@@ -419,7 +419,6 @@ footer {
 	opacity: 0.5;
 }
 
-/* Losowe pozycje i animacje dla różnych gwiazd */
 .star1 {
 	width: 2px;
 	height: 2px;
@@ -476,9 +475,7 @@ footer {
 	}
 }
 @media (max-width: 768px) {
-
 	footer {
-		
 		text-align: center;
 		font-size: 14px;
 		right: 5px;
@@ -489,23 +486,19 @@ footer {
 @media (max-width: 480px) {
 	.controls-area p {
 		font-size: 14px;
-		
 	}
 
 	footer {
 		bottom: 20px;
-		
-		
+
 		font-size: 12px;
 	}
 }
 
 @media (max-width: 380px) {
- .wrapper {
-    justify-content: flex-start; 
- 
- 
-  }
+	.wrapper {
+		justify-content: flex-start;
+	}
 
 	h1 {
 		padding: 10px;
@@ -522,7 +515,6 @@ footer {
 
 	.controls-area p {
 		font-size: 12px;
-		
 	}
 
 	.recording {
@@ -533,13 +525,18 @@ footer {
 	}
 }
 
-@media (max-width: 320px) {
-	 .wrapper {
-    justify-content: center; 
- 
- 
-  }
+@media (max-width: 360px) {
+	.wrapper {
+		justify-content: center;
+	}
 	.record-btn {
+		display: none;
+	}
+
+	.recording {
+		display: none;
+	}
+	.controls-area p {
 		display: none;
 	}
 }

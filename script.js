@@ -7,8 +7,8 @@ const recordingsContainer = document.querySelector('.recordings-container');
 let isRecording = false;
 let currentRecording = [];
 let recordings = [];
-let maxRecordings = 3;
-const recordingVariables = [null, null, null];
+let maxRecordings = 5;
+const recordingVariables = [null, null, null, null, null];
 
 const sounds = [
 	new Audio('sounds/sun_sonification.mp3'),

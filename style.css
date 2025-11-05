@@ -4,7 +4,6 @@
 	padding: 0;
 }
 
-html,
 body {
 	height: 100%;
 	width: 100%;
@@ -15,10 +14,10 @@ body {
 	background-color: rgb(7, 1, 12);
 	color: #cacaca;
 	text-transform: uppercase;
-	touch-action: none;
-	overscroll-behavior: none;
+	/* touch-action: none;
+	overscroll-behavior: none; */
 }
-/* html bo w wiekszosci przypadkow odpowiada za scroll strony */
+/* html jesli scroll ma byc nieaktywny */
 
 .stars {
 	position: fixed;
@@ -460,6 +459,21 @@ footer {
 	animation-delay: 4s;
 }
 
+.nasa-info {
+	display: none;
+
+	font-weight: 300;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	writing-mode: sideways-lr;
+	bottom: 10px;
+	right: 10px;
+	font-size: 14px;
+	color: #8e8e8e;
+	opacity: 0.5;
+}
+
 @keyframes fall {
 	0% {
 		transform: translateX(100vw) translateY(0);
@@ -494,19 +508,23 @@ footer {
 		font-size: 12px;
 	}
 }
-
-@media (max-width: 380px) {
+@media (max-width: 428px) {
 	.wrapper {
 		justify-content: flex-start;
 	}
 
+	footer {
+		display: none;
+	}
+	.nasa-info {
+		display: flex;
+	}
+}
+
+@media (max-width: 380px) {
 	h1 {
 		padding: 10px;
 		font-size: 32px;
-	}
-	footer {
-		bottom: 10px;
-		font-size: 10px;
 	}
 
 	.controls {

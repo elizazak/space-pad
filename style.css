@@ -467,7 +467,9 @@ footer {
 	top: 5px;
 	left: 5px;
 	margin-bottom: 20px;
-	writing-mode: sideways-lr;
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	text-orientation: mixed;
 	bottom: 10px;
 	right: 10px;
 	font-size: 14px;
@@ -557,5 +559,12 @@ footer {
 	}
 	.controls-area p {
 		display: none;
+	}
+		.nasa-info {
+		display: none;
+	}
+
+	footer {
+		display: block;
 	}
 }

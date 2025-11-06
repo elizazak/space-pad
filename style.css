@@ -414,11 +414,12 @@ footer {
 .stars {
 	opacity: 0;
 	top: -5px;
-	position: fixed;
+	display: block;
 	background-color: #fff;
 	border-radius: 50%;
 	animation: fall 5s linear infinite;
 	animation-fill-mode: both;
+	animation-delay: 2s; /*usunac jak nie zadziala */
 	z-index: 0;
 }
 

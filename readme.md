@@ -16,5 +16,5 @@ Interactive space sound pad with falling stars animation. Works on desktop and m
 ## Responsiveness
 - ≤1024px: tablets & small laptops
 - ≤480px: smaller fonts & elements
-- ≤380px: pads aligned to top (`flex-start`)
-- ≤320px: record button hidden
+- ≤380px: pads aligned to top
+- ≤360px: record button hidden

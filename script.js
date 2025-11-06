@@ -326,22 +326,7 @@ function showRecording(index) {
 		pauseBtn.style.display = 'inline-block';
 	});
 }
-// naprawa hover/active na mobile
-const buttons = document.querySelectorAll('.controls button, .pad');
 
-buttons.forEach(btn => {
-  btn.addEventListener('touchstart', () => {
-    btn.classList.add('touching');
-  });
-
-  btn.addEventListener('touchend', () => {
-    btn.classList.remove('touching');
-  });
-
-  btn.addEventListener('touchcancel', () => {
-    btn.classList.remove('touching');
-  });
-});
 
 
 pads.forEach((pad, index) => {

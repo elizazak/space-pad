@@ -19,16 +19,6 @@ body {
 }
 /* html jesli scroll ma byc nieaktywny */
 
-.stars {
-	position: fixed;
-	background-color: #fff;
-	border-radius: 50%;
-	opacity: 0.8;
-
-	animation: fall 5s linear infinite;
-	z-index: 0;
-}
-
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -37,7 +27,7 @@ body {
 	height: 100vh;
 
 	justify-content: center;
-
+	
 	background-position: center;
 	z-index: 1000;
 }
@@ -290,6 +280,12 @@ h1 {
 	scale: 1.1;
 }
 
+.rec-sounds {
+	font-family: 'Genos', sans-serif;
+	font-size: 16px;
+	letter-spacing: 1px;
+}
+
 .record-btn {
 	margin-bottom: 30px;
 }
@@ -418,13 +414,23 @@ footer {
 	opacity: 0.5;
 }
 
+.stars {
+	opacity: 0;
+	top: -5px;
+	position: fixed;
+	background-color: #fff;
+	border-radius: 50%;
+	animation: fall 5s linear infinite;
+	animation-fill-mode: both;
+	z-index: 0;
+}
+
 .star1 {
 	width: 2px;
 	height: 2px;
 	left: 10%;
 	animation-duration: 4s;
-	animation-delay: 0s;
-	z-index: 0;
+	animation-delay: -1s;
 }
 
 .star2 {
@@ -432,7 +438,7 @@ footer {
 	height: 3px;
 	left: 30%;
 	animation-duration: 6s;
-	animation-delay: 1s;
+	animation-delay: -2s;
 }
 
 .star3 {
@@ -440,7 +446,7 @@ footer {
 	height: 1px;
 	left: 50%;
 	animation-duration: 5s;
-	animation-delay: 2s;
+	animation-delay: -3s;
 }
 
 .star4 {
@@ -448,7 +454,7 @@ footer {
 	height: 2px;
 	left: 70%;
 	animation-duration: 7s;
-	animation-delay: 3s;
+	animation-delay: -4s;
 }
 
 .star5 {
@@ -456,7 +462,7 @@ footer {
 	height: 1px;
 	left: 90%;
 	animation-duration: 5s;
-	animation-delay: 4s;
+	animation-delay: -5s;
 }
 
 .nasa-info {
@@ -479,10 +485,16 @@ footer {
 
 @keyframes fall {
 	0% {
-		transform: translateX(100vw) translateY(0);
+		transform: translateX(100vw) translateY(-20px);
+		opacity: 0;
+	}
+
+	5% {
+		opacity: 0.8;
 	}
 	100% {
 		transform: translateX(-100vw) translateY(100vh);
+		opacity: 0.8;
 	}
 }
 
@@ -498,14 +510,22 @@ footer {
 		right: 5px;
 		left: 5px;
 	}
+
+	.rec-sounds {
+		font-size: 14px;
+	}
 }
 
 @media (max-width: 480px) {
 	.controls-area p {
 		font-size: 14px;
 	}
+	.nasa-info {
+		display: flex;
+	}
 
 	footer {
+		display: none;
 		bottom: 20px;
 
 		font-size: 12px;
@@ -516,11 +536,9 @@ footer {
 		justify-content: flex-start;
 	}
 
-	footer {
-		display: none;
-	}
-	.nasa-info {
-		display: flex;
+	.controls-area p {
+		margin-left: 20px;
+		margin-right: 20px;
 	}
 }
 
@@ -544,6 +562,10 @@ footer {
 	.recordings-area {
 		margin: 10px auto;
 	}
+
+		.rec-sounds {
+		font-size: 12px;
+	}
 }
 
 @media (max-width: 360px) {
@@ -560,7 +582,7 @@ footer {
 	.controls-area p {
 		display: none;
 	}
-		.nasa-info {
+	.nasa-info {
 		display: none;
 	}
 

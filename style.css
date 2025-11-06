@@ -5,6 +5,7 @@
 }
 
 body {
+	position: relative;
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -16,6 +17,9 @@ body {
 	text-transform: uppercase;
 }
 
+html {
+	overflow: hidden;
+}
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -272,7 +276,8 @@ h1 {
 	transition: scale 0.3s;
 }
 
-.controls button:hover {
+.controls button:hover,
+.controls button:active  {
 	background-color: rgb(24, 24, 24);
 	scale: 1.1;
 }
@@ -285,6 +290,7 @@ h1 {
 
 .record-btn {
 	margin-bottom: 30px;
+	cursor: pointer;
 }
 
 .recordings-area {
@@ -413,14 +419,18 @@ footer {
 
 .stars {
 	opacity: 0;
-	top: -5px;
-position: absolute;
+	top: 0;
+	left: 0;
+	position: absolute;
 	background-color: #fff;
 	border-radius: 50%;
 	animation: fall 5s linear infinite;
 	animation-fill-mode: both;
 	/* animation-delay: 2s; */
 	z-index: 0;
+	  contain: layout paint; 
+	
+
 }
 
 .star1 {
@@ -500,6 +510,8 @@ position: absolute;
 	h1 {
 		font-size: 42px;
 	}
+
+
 }
 @media (max-width: 768px) {
 	footer {
@@ -539,10 +551,7 @@ position: absolute;
 		margin-right: 20px;
 	}
 
-	.controls button:hover {
-	background-color: rgb(18, 18, 18);
-	scale: 1;
-}
+
 }
 
 @media (max-width: 380px) {

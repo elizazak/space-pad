@@ -276,11 +276,19 @@ h1 {
 	transition: scale 0.3s;
 }
 
-.controls button:hover,
-.controls button:active  {
+.controls button:hover
+{
 	background-color: rgb(24, 24, 24);
 	scale: 1.1;
 }
+
+.controls button.touching,
+.pad.touching {
+  scale: 1.1;
+  background-color: rgb(24, 24, 24);
+  transition: scale 0.2s ease;
+}
+
 
 .rec-sounds {
 	font-family: 'Genos', sans-serif;

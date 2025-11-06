@@ -537,6 +537,11 @@ footer {
 		margin-left: 20px;
 		margin-right: 20px;
 	}
+
+	.controls button:hover {
+	background-color: rgb(18, 18, 18);
+	scale: 1;
+}
 }
 
 @media (max-width: 380px) {

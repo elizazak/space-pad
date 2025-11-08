@@ -521,6 +521,11 @@ footer {
 	scale: 1;
 }
 
+.pad-container button:hover,
+.pad-container button:active {
+	background-color: rgb(18, 18, 18);
+}
+
 
 }
 @media (hover: none), (max-width: 768px) {
